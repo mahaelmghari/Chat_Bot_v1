@@ -1,0 +1,46 @@
+{"intents": [
+        {"tag": "greeting",
+            "patterns": ["Hi there", "How are you", "Is anyone there?","Hey","Hola", "Hello", "Good day"],
+            "responses": ["Hello, thanks for asking", "Good to see you again", "Hi there, how can I help?"],
+            "context": [""]
+        },
+        {"tag": "goodbye",
+            "patterns": ["Bye", "See you later", "Goodbye", "Nice chatting to you, bye", "Till next time"],
+            "responses": ["See you!", "Have a nice day", "Bye! Come back again soon."],
+            "context": [""]
+        },
+        {"tag": "thanks",
+            "patterns": ["Thanks", "Thank you", "That's helpful", "Awesome, thanks", "Thanks for helping me"],
+            "responses": ["Happy to help!", "Any time!", "My pleasure"],
+            "context": [""]
+        },
+        {"tag": "noanswer",
+            "patterns": [],
+            "responses": ["Sorry, can't understand you", "Please give me more info", "Not sure I understand"],
+            "context": [""]
+        },
+        {"tag": "electronics_robert_irvin",
+            "patterns":[
+                "The electronics industry grew up around the electronic tube and its many uses. ",
+                "Each molecule is a cluster of smaller particles called atoms",
+                "There are two kinds of electricity, called positive and negative electricity. "
+            ],
+            "responses":["It may be \"Electronics\" by Robert Irvin." ],
+            "context":[""]
+        },
+            {"tag": "practical_electronics_for_inventors",
+            "patterns":[
+                "We could pretend that there were positive charges moving in the wires and various electrical devices, and everything would work out fine:",
+                "Magnetic fields, unlike electric fields, only act upon charges that are moving in a direction that is perpendicular (or has a perpendicular component) to the direction of the applied field.",
+                "This phenomenon of electromagnetic induction is used in a number of mechanisms, such as motors, generators, and transformers, as was pointed out."
+            ],
+            "responses":["It may be \"Practical Electronics for Inventors\" by Scherz, Paul Monk, Simon." ],
+            "context":["search_book_by_quote"]
+        },
+        {"tag": "search_book_by_name",
+            "patterns":[],
+            "responses":["Loading book details" ],
+            "context":[""]
+        } 
+    ]
+}

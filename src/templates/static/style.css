@@ -1,0 +1,81 @@
+:root {
+    --bg: #0f1115;
+    --panel: #1a1d24;
+    --bubble-me: #F29191;
+    --bubble-them: #B1E5E6;
+    --text: #e1e3e8;
+    --text-dim: #8b8f9c;
+    --accent: #F29191;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body, input {
+    font-size: 14px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+#body {
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#title {
+    font-size: 30px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--text);
+}
+
+#input {
+    background: var(--panel);
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+    max-width: 90%;
+}
+
+.input-container {
+    display: flex;
+    gap: 10px;
+}
+
+#message-input {
+    flex: 1;
+    padding: 10px 14px;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+    background: #1f222b;
+    color: var(--text);
+}
+
+#message-input::placeholder {
+    color: var(--text-dim);
+}
+
+.btn-info {
+    background: var(--accent);
+    border: none;
+    border-radius: 20px;
+    padding: 9px 18px;
+    color: white;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: opacity 0.15s ease;
+}
+
+.btn-info:hover {
+    opacity: 0.85;
+}
