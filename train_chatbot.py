@@ -2,15 +2,10 @@ import nltk
 import json
 import pickle
 import numpy as np
+import random
 
 from nltk.stem import WordNetLemmatizer
-lemmatizer = WordNetLemmatizer()
-
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Dropout
-from tensorflow.keras.optimizers import SGD
-
-import random
+from sklearn.neural_network import MLPClassifier
 
 #download ntlk 
 nltk.download('punkt')
@@ -20,14 +15,16 @@ nltk.download('omw-1.4')
  
 lemmatizer = WordNetLemmatizer()
 
+# variables
 words = []
 classes = []
 documents = []
 ignore_words = ['?', '!']
 
-with open('intents.json') as data_file:
+with open('data/intents.json', encoding = 'utf-8') as data_file:
     intents = json.load(data_file)
 
+#process intents
 for intent in intents['intents']:
     for pattern in intent['patterns']:
 
@@ -49,12 +46,12 @@ words = sorted(list(set(words)))
 #sort classes
 classes = sorted(list(set(classes)))
 
-#documents = combination between patterns and intents
+#documents = combination between patterns and intents (display info)
 print(len(documents), 'documents')
 print(len(classes), 'classes', classes)
 print(len(words), 'unique lemmatized words', words)
 
-# create training datat
+# create training data
 train_x = []
 train_y = []
 output_empty = [0] * len(classes)
@@ -63,15 +60,12 @@ for doc in documents:
     bag = []
     pattern_words = doc[0]
     pattern_words = [lemmatizer.lemmatize(word.lower()) for word in pattern_words]
-
+    #create bag of words
     for w in words:
         bag.append(1 if w in pattern_words else 0)
-
-    output_row = list(output_empty)
-    output_row[classes.index(doc[1])] = 1
-
+    
     train_x.append(bag)
-    train_y.append(output_row)
+    train_y.append(classes.index(doc[1]))   
 
 #shuffle together 
 combined = list(zip(train_x, train_y))
@@ -84,20 +78,36 @@ train_y = np.array(train_y)
 print('Training data created')
 
 #model creation - 3 layers, 128 neurons, 64 neurons, output layer = number of intents (softmax)
-model = Sequential()
-model.add(Dense(128, input_shape = (len(train_x[0]),), activation = 'relu'))
-model.add(Dropout(0.5))
-model.add(Dense(64, activation = 'relu'))
-model.add(Dropout(0.5))
-model.add(Dense(len(train_y[0]), activation = 'softmax'))
-
-#compile model
-sgd = SGD(learning_rate = 0.01, decay = 1e-6, momentum = 0.9, nesterov = True)
-model.compile(loss = 'categorical_crossentropy', optimizer = sgd, metrics = ['accuracy'])
+model = MLPClassifier(
+    hidden_layer_sizes = (128, 64),
+    activation = 'relu',
+    solver = 'sgd',
+    learning_rate_init = 0.01,
+    momentum = 0.9,
+    max_iter = 500,
+    batch_size = 5,
+    random_state = 42
+)
 
 #training
-hist = model.fit(train_x, train_y, epochs = 200, batch_size = 5, verbose = 1)
+print('Training model...')
+model.fit(train_x, train_y)
+print('Training completed')
 
-model.save('.data/chatbot_model.keras')
+accuracy = model.score(train_x, train_y)
+print(f'Training accuracy: {accuracy * 100:2f}%')
 
-print('model created')
+#save model, words and classes
+with open('data/chatbot_model.pkl', 'wb') as model_file:
+    pickle.dump(model, model_file)
+print('Saved model to: data/chatbot_model.pkl')
+
+with open('data/words.pkl', 'wb') as words_file: 
+    pickle.dump(words, words_file)
+print('Saved words to: data/words.pkl')
+
+with open('data/classes.pkl', 'wb') as classes_file: 
+    pickle.dump(classes, classes_file)
+print('Saved classes to: data/classes.pkl')
+
+print('Model created successfully.')
