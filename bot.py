@@ -20,10 +20,10 @@ with open('./data/chatbot_model.pkl', 'rb') as model_file:
 with open('./data/intents.json', encoding = 'utf-8') as file:
     intents = json.load(file)
 
-with open('./data/words.pkl', 'rb') as words:
+with open('./data/words.pkl', 'rb') as file:
     words = pickle.load(file)
 
-with open('./data/classes.pkl', 'rb') as classes:
+with open('./data/classes.pkl', 'rb') as file:
     classes = pickle.load(file)
 
 #clean up
